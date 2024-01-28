@@ -31,7 +31,7 @@ export const createCompletedHtml = ({
 
   return `
     <h1>Dayton Home Repair Network</h1>
-    <p>You have completed the survey.</p>
+    <p>Thank you for completing the survey.</p>
 
     ${eligibilityText}
 
