@@ -1,6 +1,7 @@
 {
   "firstPageIsStarted": true,
   "startSurveyText": "Begin Screener",
+<<<<<<< HEAD
   "pages": [
     {
       "elements": [
@@ -117,4 +118,90 @@
       ]
     }
   ]
+=======
+  "pages": [{
+    "elements": [{
+      "type": "html",
+      "html": "<h1>Dayton Home Repair Network</h1><h2>Home Repair, Weatherization, & ARPA Program Screening</h2>"
+    }]
+  },{
+    "elements": [{
+      "name": "address",
+      "title": "What is your address?",
+      "type": "text"
+    },{
+      "name": "ownHome",
+      "title": "Do you own your own home?",
+      "type": "boolean"
+    },{
+      "name": "homeType",
+      "title": "Is it a single, duplex, or other multi-unit?",
+      "type": "radiogroup",
+      "choices": ["Single Family", "Duplex or other Multi-Unit"]
+    },{
+      "name": "otherProperties",
+      "title": "Do you own any other properties?",
+      "type": "boolean"
+    }]
+  },{
+    "elements": [{
+      "name": "nameOnLease",
+      "title": "Is your name on the deed?",
+      "type": "boolean"
+    }]
+  },{
+    "elements": [{
+      "name": "taxesUpToDate",
+      "title": "Are you up to date on your property taxes or on a payment plan?",
+      "type": "boolean"
+    }]
+  },{
+    "elements": [{
+      "name": "insurance",
+      "title": "Do you have home owner's insurance?",
+      "type": "boolean"
+    },{
+      "name": "weatherized",
+      "title": "Have you ever received weatherization or home repair assistance from any of these programs? County Corp, MVCAP, Rebuilding Together Dayton, or Habitat for Humanity?",
+      "type": "boolean"
+    },{
+      "name": "centerpoint",
+      "title": "Do you have Centerpoint or Vectren as your natural gas provider?",
+      "type": "boolean"
+    }]
+  },{
+    "elements": [{
+      "name": "income",
+      "title": "What is your average household monthy income? (Please include all permanent residents over the age of 18)",
+      "type": "text"
+    },{
+      "name": "familyMembers",
+      "title": "How many people in the home?",
+      "type": "text"
+    },{
+      "name": "age",
+      "title": "How old are you?",
+      "type": "text"
+    }]
+  },{
+    "elements": [{
+      "name": "name",
+      "title": "What is your name?",
+      "type": "text"
+    },{
+      "name": "preferredContact",
+      "title": "What is your preferred form of contact?",
+      "type": "radiogroup",
+      "choices": ["email", "call", "text"]
+    },{
+      "name": "email",
+      "title": "Email address",
+      "type": "text"
+    },{
+      "name": "phone",
+      "title": "Phone Number",
+      "type": "text"
+    }]
+  }]
+>>>>>>> d77ead847770a9329e2089ea45898aeea31dbd7e
 }
