@@ -9,7 +9,7 @@
   },{
     "elements": [{
       "name": "address",
-      "title": "Where is your home located?",
+      "title": "What is your address?",
       "type": "text"
     },{
       "name": "ownHome",
@@ -20,37 +20,41 @@
       "title": "Is it a single, duplex, or other multi-unit?",
       "type": "radiogroup",
       "choices": ["Single Family", "Duplex or other Multi-Unit"]
+    },{
+      "name": "otherProperties",
+      "title": "Do you own any other properties?",
+      "type": "boolean"
     }]
   },{
     "elements": [{
       "name": "nameOnLease",
-      "title": "Is your name on the lease?",
+      "title": "Is your name on the deed?",
       "type": "boolean"
     }]
   },{
     "elements": [{
       "name": "taxesUpToDate",
-      "title": "Are you up to date on your taxes or on a payment plan?",
+      "title": "Are you up to date on your property taxes or on a payment plan?",
       "type": "boolean"
     }]
   },{
     "elements": [{
       "name": "insurance",
-      "title": "Do you have insurance?",
+      "title": "Do you have home owner's insurance?",
       "type": "boolean"
     },{
       "name": "weatherized",
-      "title": "Has your home been weatherized through this program before?",
+      "title": "Have you ever received weatherization or home repair assistance from any of these programs? County Corp, MVCAP, Rebuilding Together Dayton, or Habitat for Humanity?",
       "type": "boolean"
     },{
       "name": "centerpoint",
-      "title": "Do you have Centerpoint as your natural gas provider?",
+      "title": "Do you have Centerpoint or Vectren as your natural gas provider?",
       "type": "boolean"
     }]
   },{
     "elements": [{
       "name": "income",
-      "title": "What is your average monthy income?",
+      "title": "What is your average household monthy income? (Please include all permanent residents over the age of 18)",
       "type": "text"
     },{
       "name": "familyMembers",
@@ -70,7 +74,7 @@
       "name": "preferredContact",
       "title": "What is your preferred form of contact?",
       "type": "radiogroup",
-      "choices": ["email", "phone"]
+      "choices": ["email", "call", "text"]
     },{
       "name": "email",
       "title": "Email address",
