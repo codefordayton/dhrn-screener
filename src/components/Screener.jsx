@@ -9,7 +9,7 @@ import 'survey-core/defaultV2.min.css';
 
 const addressEndpoint = 'https://faas-nyc1-2ef2e6cc.doserverless.co/api/v1/web/fn-72f50c41-0f6d-47f1-a509-bfc5cbc49013/dhrn/addresses';
 
-export default function Screener({onComplete, setAddressData}) {
+export default function Screener({onComplete}) {
   // Using a state variable with this causes the survey to re-render on every state change,
   // but not checking for a change causes multiple checks with the api.
   let lastAddress = null;
