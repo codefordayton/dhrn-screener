@@ -124,7 +124,7 @@ export default function Results({ surveyData, addressData }) {
       message: "You must have lived in the home for at least one year.",
     });
 
-    const isEligible = !results.any((result) => result.eligible === false);
+    const isEligible = !results.some((result) => result.eligible === false);
     console.log("ARPA Results", results, isEligible);
     return { name: "ARPA Program", eligible: isEligible, data: results };
   }
@@ -132,7 +132,7 @@ export default function Results({ surveyData, addressData }) {
   function checkCountyCorp(data) {
     const results = [];
     // 80% AMI
-    const incomeThreshold = getIncomeThreshold(data.numPeople, "ami80");
+    const incomeThreshold = getIncomeThreshold(data.familyMembers, "ami80");
     results.push({eligible: (data.income >= incomeThreshold), message: "Your must be below 80% AMI to qualify."});
     // montgomery county
     results.push({
@@ -158,14 +158,15 @@ export default function Results({ surveyData, addressData }) {
         "You can't have participated in the program in the last two years.",
     });
 
-    const isEligible = !results.any((result) => result.eligible === false);
+    const isEligible = !results.some((result) => result.eligible === false);
     console.log("County Corp Results", results, isEligible);
     return { name: "County Corp Home Repair", eligible: isEligible, data: results };
   }
 
   function checkRebuildingTogether(data) {
+    const results = [];
     // 200% FPL 
-    const incomeThreshold = getIncomeThreshold(data.numPeople, "fpl200");
+    const incomeThreshold = getIncomeThreshold(data.familyMembers, "fpl200");
     results.push({eligible: (data.income >= incomeThreshold), message: "Your must be below 200% FPL to qualify."});
     // montgomery county
     results.push({
@@ -191,12 +192,13 @@ export default function Results({ surveyData, addressData }) {
         "You can't have participated in the program in the last two years.",
     });
 
-    const isEligible = !results.any((result) => result.eligible === false);
+    const isEligible = !results.some((result) => result.eligible === false);
     console.log("Rebuilding Together Results", results, isEligible);
     return { name: "Rebuilding Together Dayton", eligible: isEligible, data: results };
   }
 
   function checkHabitatForHumanity(data) {
+    const results = [];
     // clark, greene, or montgomery county
     results.push({
       eligible: null,
@@ -221,15 +223,16 @@ export default function Results({ surveyData, addressData }) {
         "You can't have participated in the program in the last two years.",
     });
 
-    const isEligible = !results.any((result) => result.eligible === false);
+    const isEligible = !results.some((result) => result.eligible === false);
     console.log("Habitat for Humanity Results", results, isEligible);
     return { name: "Habitat for Humanity Emergency Home Repair", eligible: isEligible, data: results };
   }
 
   function checkMVCAP(data) {
+    const results = [];
     // centerpoint at 300%, otherwise 200% FPL 
     const threshold = data.centerpoint ? "fpl300" : "fpl200";
-    const incomeThreshold = getIncomeThreshold(data.numPeople, threshold);
+    const incomeThreshold = getIncomeThreshold(data.familyMembers, threshold);
     results.push({eligible: (data.income >= incomeThreshold), message: "Your must be below 200% FPL to qualify. Centerpoint has a program with a 300% FPL threshold."});
     // montgomery, mercer, auglaize, darke, miami, preble, greene, butler, warren county
     results.push({
@@ -248,9 +251,9 @@ export default function Results({ surveyData, addressData }) {
       message: "You may be eligible for additional funding from Centerpoint.",
     });
 
-    const isEligible = !results.any((result) => result.eligible === false);
+    const isEligible = !results.some((result) => result.eligible === false);
     console.log("MVCAP Results", results, isEligible);
-    return { name: "Miami Valley Community Action Partnership Weatherization" eligible: isEligible, data: results };
+    return { name: "Miami Valley Community Action Partnership Weatherization", eligible: isEligible, data: results };
   }
 
   function generateResults() {
@@ -263,10 +266,25 @@ export default function Results({ surveyData, addressData }) {
     results.push(checkHabitatForHumanity(surveyData));
     results.push(checkMVCAP(surveyData));
 
-    return {
-      eligible: true,
-      message: "You are likely eligible for assistance.",
-    };
+    return (
+      <>
+        <h2>Results</h2>
+        <ul>
+          {results.map((result) => (
+            <li key={result.name}>
+              {result.name}: {result.eligible ? "Eligible" : "Not Eligible"}
+              <ul>
+                {result.data.map((item) => (
+                  <li key={item.message}>
+                    {item.message}: {item.eligible ? "Eligible" : "Not Eligible"}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </>
+    );
   }
 
   return (
@@ -275,6 +293,7 @@ export default function Results({ surveyData, addressData }) {
       <p>
         This page will provide some info on if you are likely to be eligible.
       </p>
+      {generateResults()}
     </>
   );
 }
