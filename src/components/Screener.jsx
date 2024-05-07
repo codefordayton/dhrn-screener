@@ -8,15 +8,18 @@ import { FunctionFactory } from "survey-core";
 import 'survey-core/defaultV2.min.css';
 
 const addressEndpoint = 'https://faas-nyc1-2ef2e6cc.doserverless.co/api/v1/web/fn-72f50c41-0f6d-47f1-a509-bfc5cbc49013/dhrn/addresses';
+const zipToCountyEndpoint = 'https://faas-nyc1-2ef2e6cc.doserverless.co/api/v1/web/fn-72f50c41-0f6d-47f1-a509-bfc5cbc49013/dhrn/zipcounty';
 
 export default function Screener({onComplete}) {
   // Using a state variable with this causes the survey to re-render on every state change,
   // but not checking for a change causes multiple checks with the api.
   let lastAddress = null;
   let lastAddressData = null;
+  let lastZip = null;
+  let lastCounty = null;
 
   const surveyConfig = new Model(survey);
-  surveyConfig.onComplete.add((sender, options) => onComplete(sender, options, lastAddressData));
+  surveyConfig.onComplete.add((sender, options) => onComplete(sender, options, lastAddressData, lastCounty));
 
   function isSingleFamilyLUC(luc) {
     if (luc >= 500 && luc < 515) return true;
@@ -74,7 +77,44 @@ export default function Screener({onComplete}) {
         return;
       });
   }
+
+  function validateZip([zipCode]) {
+    console.log("VALIDATE", zipCode);
+    if (zipCode === lastZip) {
+      this.returnResult(true);
+      return;
+    }
+
+    if (!zipCode) {
+      this.returnResult(false);
+    }
+    lastZip = zipCode;
+
+    fetch(`${zipToCountyEndpoint}?zip=` + zipCode)
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            if (data && data.result) {
+              lastCounty = data.result;
+              this.returnResult(true);
+            } else {
+              this.returnResult(false);
+              return;
+            }
+          });
+        } else {
+          this.returnResult(false);
+          return;
+        }
+      })
+      .catch(() => {
+        this.returnResult(false);
+        return;
+      });
+  }
+
   FunctionFactory.Instance.register("validateAddress", validateAddress, true);
+  FunctionFactory.Instance.register("validateZip", validateZip, true);
 
   return <Survey model={surveyConfig} />;
 }

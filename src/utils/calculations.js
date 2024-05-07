@@ -76,7 +76,7 @@ export function getIncomeThreshold(numPeople, thresholdType) {
     const results = [];
     // neighborhood
     results.push({
-      eligible: null,
+      eligible: data.arpaNeighborhood,
       message:
         "Your property must be located in one of the eligible neighborhoods.",
     });
@@ -111,7 +111,7 @@ export function getIncomeThreshold(numPeople, thresholdType) {
     });
     // in home for more than a year
     results.push({
-      eligible: null,
+      eligible: data.moreThanAYear,
       message: "You must have lived in the home for at least one year.",
     });
 
@@ -120,14 +120,14 @@ export function getIncomeThreshold(numPeople, thresholdType) {
     return { name: "ARPA Program", eligible: isEligible, data: results };
   }
 
-  export function checkCountyCorp(data) {
+  export function checkCountyCorp(data, county) {
     const results = [];
     // 80% AMI
     const incomeThreshold = getIncomeThreshold(data.familyMembers, "ami80");
-    results.push({eligible: (data.income >= incomeThreshold), message: "Your must be below 80% AMI to qualify."});
+    results.push({eligible: (data.income < incomeThreshold), message: "Your must be below 80% AMI to qualify."});
     // montgomery county
     results.push({
-      eligible: null,
+      eligible: county === "Montgomery",
       message: "You must be located in Montgomery County.",
     });
     // own home
@@ -154,14 +154,14 @@ export function getIncomeThreshold(numPeople, thresholdType) {
     return { name: "County Corp Home Repair", eligible: isEligible, data: results };
   }
 
-  export function checkRebuildingTogether(data) {
+  export function checkRebuildingTogether(data, county) {
     const results = [];
     // 200% FPL 
     const incomeThreshold = getIncomeThreshold(data.familyMembers, "fpl200");
-    results.push({eligible: (data.income >= incomeThreshold), message: "Your must be below 200% FPL to qualify."});
+    results.push({eligible: (data.income < incomeThreshold), message: "Your must be below 200% FPL to qualify."});
     // montgomery county
     results.push({
-      eligible: null,
+      eligible: county === "Montgomery",
       message: "You must be located in Montgomery County.",
     });
     // own home
@@ -188,11 +188,11 @@ export function getIncomeThreshold(numPeople, thresholdType) {
     return { name: "Rebuilding Together Dayton", eligible: isEligible, data: results };
   }
 
-  export function checkHabitatForHumanity(data) {
+  export function checkHabitatForHumanity(data, county) {
     const results = [];
     // clark, greene, or montgomery county
     results.push({
-      eligible: null,
+      eligible: ["Clark", "Greene", "Montgomery"].includes(county),
       message: "You must be located in Clark, Greene, or Montgomery County.",
     });
     // own home
@@ -219,17 +219,16 @@ export function getIncomeThreshold(numPeople, thresholdType) {
     return { name: "Habitat for Humanity Emergency Home Repair", eligible: isEligible, data: results };
   }
 
-  export function checkMVCAP(data) {
+  export function checkMVCAP(data, county) {
     const results = [];
     // centerpoint at 300%, otherwise 200% FPL 
     const threshold = data.centerpoint ? "fpl300" : "fpl200";
     const incomeThreshold = getIncomeThreshold(data.familyMembers, threshold);
-    results.push({eligible: (data.income >= incomeThreshold), message: "Your must be below 200% FPL to qualify. Centerpoint has a program with a 300% FPL threshold."});
+    results.push({eligible: (data.income < incomeThreshold), message: "Your must be below 200% FPL to qualify. Centerpoint has a program with a 300% FPL threshold."});
     // montgomery, mercer, auglaize, darke, miami, preble, greene, butler, warren county
     results.push({
-      eligible: null,
-      message:
-        "You must be located in Mercer, Auglaize, Darke, Miami, Preble, Butler, Warren, Greene, or Montgomery County.",
+      eligible: ["Montgomery", "Mercer", "Auglaize", "Darke", "Miami", "Preble", "Greene", "Butler", "Warren"].includes(county),
+      message: "You must be located in Mercer, Auglaize, Darke, Miami, Preble, Butler, Warren, Greene, or Montgomery County.",
     });
     // can't have done the program before
     results.push({

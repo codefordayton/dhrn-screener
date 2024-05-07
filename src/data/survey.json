@@ -20,6 +20,23 @@
         "expression": "validateAddress({address})"
       }]
     },{
+      "name": "zipCode",
+      "title": "What is your zip code?",
+      "description": "Many of the programs are limited to certain zip codes or counties.",
+      "type": "text",
+      "isRequired": true,
+      "validators": [{
+        "type": "expression",
+        "text": "Please enter a valid zip code",
+        "expression": "validateZip({zipCode})"
+      }]
+    },{
+      "name": "arpaNeighborhood",
+      "title": "Are you in one of the following neighborhoods?",
+      "description":"Old North Dayton, 5 Oaks, Wolf Creek, Carillon, Edgemont, Miami Chapel",
+      "type": "boolean",
+      "isRequired": true
+    },{
       "name": "ownHome",
       "title": "Do you own your own home?",
       "description": "Most of the programs are meant for home owners. Even if that isn't you, please fill out the form as we might be able to direct you to other resources.",
@@ -38,18 +55,19 @@
       "description": "These programs are meant to support your primary residence.",
       "type": "boolean",
       "isRequired": true
-    }
-    ]
+    },{
+      "name": "moreThanAYear",
+      "title": "Have you lived in the home for more than a year?",
+      "type": "boolean",
+      "isRequired": true
+    }]
   },{
     "elements": [{
-      "name": "nameOnLease",
+      "name": "nameOnDeed",
       "title": "Is your name on the deed?",
       "description": "If you are not on the deed, or if you aren't the only name on the deed, you will need permission from the owner.",
       "type": "boolean"
-    }],
-    "visibleIf": "{ownHome} = true"
-  },{
-    "elements": [{
+    },{
       "name": "taxesUpToDate",
       "title": "Are you up to date on your property taxes or on a payment plan?",
       "type": "boolean"
@@ -63,7 +81,7 @@
       "visibleIf": "{ownHome} = true"
     },{
       "name": "weatherized",
-      "title": "Have you ever received weatherization or home repair assistance from any of these programs?",
+      "title": "Have you ever received weatherization or home repair assistance from any of these programs in the last 2 years?",
       "description": "County Corp, MVCAP, Rebuilding Together Dayton, or Habitat for Humanity?",
       "type": "boolean",
       "visibleIf": "{ownHome} = true"
