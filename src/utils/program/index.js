@@ -23,6 +23,8 @@ import {
  * @property {number} familyMembers - number of ppl in house
  * @property {boolean} receivedHelpInLast2Years - received help from any of the programs within last 2 years
  * @property {boolean} hasLivedInHomeOver1Year - applicant has lived in home for over a year
+ * @property {boolean} arpaNeighborhood - applicant is in ARPA neighborhood
+ * @property {string} county - county of residence
  */
 
 // --------------------------------------------------------------------
@@ -46,8 +48,9 @@ export const miamiValleyCommunityActionPartnershipWeatherization = (
   });
 
   const meetsIncomeReq = userInfo.income * 12 < percentFPLForHouseholdSize;
+  const inCounty = ["Montgomery", "Mercer", "Auglaize", "Darke", "Miami", "Preble", "Greene", "Butler", "Warren"].includes(userInfo.county);
 
-  return meetsIncomeReq && !userInfo.weatherized;
+  return meetsIncomeReq && !userInfo.weatherized && inCounty;
 };
 
 /**
@@ -65,9 +68,10 @@ export const habitatForHumanityEmergencyHomeRepair = (userInfo) => {
   });
 
   const meetsIncomeReq = userInfo.income * 12 < percentAMIForHouseholdSize;
+  const inCounty = ["Montgomery", "Greene", "Clark"].includes(userInfo.county);
 
   return (
-    meetsIncomeReq && userInfo.insurance && !userInfo.receivedHelpInLast2Years
+    meetsIncomeReq && inCounty && userInfo.insurance && !userInfo.receivedHelpInLast2Years
   );
 };
 
@@ -88,9 +92,11 @@ export const countyCorpHomeRepair = (userInfo) => {
   const meetsIncomeReq =
     userInfo.monthlyIncome * 12 < percentAMIForHouseholdSize;
 
+  const inCounty = userInfo.county === "Montgomery";
   return (
     meetsIncomeReq &&
     userInfo.hasInsurance &&
+    inCounty &&
     !userInfo.receivedHelpInLast2Years
   );
 };
@@ -114,7 +120,9 @@ export const miamiValleyCommunityActionPartnershipEmergencyHomeRepair = (
   const meetsIncomeReq =
     userInfo.monthlyIncome * 12 < percentAMIForHouseholdSize;
 
-  return meetsIncomeReq && !userInfo.receivedHelpInLast2Years;
+  const inCounty = ["Montgomery", "Mercer", "Auglaize", "Darke", "Miami", "Preble", "Greene", "Butler", "Warren"].includes(userInfo.county);
+
+  return meetsIncomeReq && !userInfo.receivedHelpInLast2Years && inCounty;
 };
 
 /**
@@ -133,8 +141,10 @@ export const rebuildingTogetherDayton = (userInfo) => {
 
   const meetsIncomeReq = userInfo.income * 12 < percentAMIForHouseholdSize;
 
+  const inCounty = userInfo.county === "Montgomery";
+
   return (
-    meetsIncomeReq && userInfo.age >= 60 && !userInfo.receivedHelpInLast2Years
+    meetsIncomeReq && inCounty && userInfo.age >= 60 && !userInfo.receivedHelpInLast2Years
   );
 };
 
@@ -147,14 +157,11 @@ export const rebuildingTogetherDayton = (userInfo) => {
  * @returns {boolean} - Returns true if the individual is eligible for home repair assistance.
  */
 export const habitatForHumanityARPAProgram = (userInfo) => {
-  // @TODO: convert userInfo.address to cords
-  // and use Google Maps Geocoding Service
-  const inARPANeighborhood = false;
+  const inARPANeighborhood = userInfo.arpaNeighborhood;
 
   return (
     inARPANeighborhood &&
     userInfo.ownHome &&
-    // userInfo.homeType !== "other" &&
     userInfo.nameOnLease &&
     userInfo.taxesUpToDate &&
     userInfo.hasLivedInHomeOver1Year
@@ -170,9 +177,9 @@ export const habitatForHumanityARPAProgram = (userInfo) => {
  * @returns {boolean} - Returns true if the individual is eligible for home repair assistance.
  */
 export const rebuildingTogetherDaytonARPAProgram = (userInfo) => {
-  // @TODO: convert userInfo.address to cords
-  // and use Google Maps Geocoding Service
-  const inARPANeighborhood = false;
+  const inARPANeighborhood = userInfo.arpaNeighborhood;
+
+  const inCounty = userInfo.county === "Montgomery";
 
   return (
     inARPANeighborhood &&
@@ -180,6 +187,7 @@ export const rebuildingTogetherDaytonARPAProgram = (userInfo) => {
     userInfo.homeType !== "other" &&
     userInfo.nameOnLease &&
     userInfo.taxesUpToDate &&
+    inCounty && 
     userInfo.hasLivedInHomeOver1Year
   );
 };

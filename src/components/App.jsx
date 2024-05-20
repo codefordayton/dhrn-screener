@@ -1,14 +1,32 @@
-import { Model } from "survey-core";
-import { Survey } from "survey-react-ui";
-import "survey-core/defaultV2.min.css";
-
-import surveyJSON from "../data/survey.json";
-import { handleCreateCompletionScreen } from "../utils/survey/handleCompleteCompletionScreen";
+import React from "react";
+import Screener from "./Screener"
+import Results from "./Results";
+import Header from "./Header";
+import Footer from "./Footer";
 
 export default function App() {
-  const survey = new Model(surveyJSON);
+  [showSurvey, setShowSurvey] = React.useState(true);
+  [surveyData, setSurveyData] = React.useState(null);
+  [addressData, setAddressData] = React.useState(null);
+  [county, setCounty] = React.useState(null);
 
-  survey.onComplete.add(handleCreateCompletionScreen(survey));
+  const completeSurvey = (sender, options, addressData, county)  => {
+    console.log("COMPLETE", sender, options, addressData, county);
+    setAddressData(addressData);
+    setCounty(county);
+    setSurveyData(sender.data);
+    setShowSurvey(false);
+  }
+  
+  const ScreenerMemo = React.memo(Screener);
+  return (
+  <>
+    <Header/>
+    { showSurvey && <ScreenerMemo onComplete={completeSurvey} />}
+    { !showSurvey && <Results surveyData={surveyData} addressData={addressData} county={county} />}
+    <Footer/>
+  </>
+  );
 
   return <Survey model={survey} />;
 }

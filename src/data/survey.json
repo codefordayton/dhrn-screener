@@ -1,4 +1,5 @@
 {
+  "checkErrorsMode": "onValueChanged",
   "firstPageIsStarted": true,
   "startSurveyText": "Begin Screener",
   "pages": [
@@ -6,28 +7,43 @@
       "elements": [
         {
           "type": "html",
-          "html": "<h1>Dayton Home Repair Network</h1><h2>Home Repair, Weatherization, & ARPA Program Screening</h2>"
+          "html": "<h2>Home Repair, Weatherization, & ARPA Program Screening</h2>"
         }
       ]
     },
     {
-      "elements": [
-        {
-          "name": "address",
-          "title": "What is your address?",
-          "type": "text",
-          "isRequired": true,
-          "validators": [
-            {
-              "type": "regex",
-              "regex": "^(\\d+\\s(?:\\w+\\s?)+(\\n\\w+)?(?:\\s\\w{2,})?)$",
-              "text": "Please enter a valid street address. For Example: 123 Dayton Street. You can optionally include city, state, and zip."
-            }
-          ]
-        },
-        {
+      "elements": [{
+        "name": "address",
+        "title": "What is your address?",
+        "description": "We will fill out some of the questions in this screener based on your address.",
+        "type": "text",
+        "isRequired": true,
+        "validators": [{
+          "type": "expression",
+          "text": "Please enter a valid address",
+          "expression": "validateAddress({address})"
+        }]
+      },{
+        "name": "zipCode",
+        "title": "What is your zip code?",
+        "description": "Many of the programs are limited to certain zip codes or counties.",
+        "type": "text",
+        "isRequired": true,
+        "validators": [{
+          "type": "expression",
+          "text": "Please enter a valid zip code",
+          "expression": "validateZip({zipCode})"
+        }]
+      },{
+        "name": "arpaNeighborhood",
+        "title": "Are you in one of the following neighborhoods?",
+        "description":"Old North Dayton, 5 Oaks, Wolf Creek, Carillon, Edgemont, Miami Chapel",
+        "type": "boolean",
+        "isRequired": true
+        },{
           "name": "ownHome",
           "title": "Do you own your own home?",
+          "description": "Most of the programs are meant for home owners. Even if that isn't you, please fill out the form as we might be able to direct you to other resources.",
           "type": "boolean",
           "isRequired": true
         },
@@ -35,34 +51,37 @@
           "name": "homeType",
           "title": "Is it a single, duplex, or other multi-unit?",
           "type": "radiogroup",
+          "description": "Multi-unit homes may require approval by the owners of the other units.",
           "choices": ["Single Family", "Duplex or other Multi-Unit"],
           "isRequired": true
         },
         {
           "name": "otherProperties",
           "title": "Do you own any other properties?",
+          "description": "These programs are meant to support your primary residence.",
           "type": "boolean",
           "isRequired": true
-        }
-      ]
+        },{
+          "name": "moreThanAYear",
+          "title": "Have you lived in the home for more than a year?",
+          "type": "boolean",
+          "isRequired": true
+        }]
     },
     {
       "elements": [
         {
-          "name": "nameOnLease",
+          "name": "nameOnDeed",
           "title": "Is your name on the deed?",
           "type": "boolean"
-        }
-      ]
-    },
-    {
-      "elements": [
-        {
+        },{
           "name": "taxesUpToDate",
           "title": "Are you up to date on your property taxes or on a payment plan?",
           "type": "boolean"
         }
-      ]
+      ],
+      "visibleIf": "{ownHome} = true"
+
     },
     {
       "elements": [
@@ -70,7 +89,8 @@
           "name": "insurance",
           "title": "Do you have home owner's insurance?",
           "type": "boolean",
-          "isRequired": true
+          "isRequired": true,
+          "visibleIf": "{ownHome} = true"
         },
         {
           "name": "weatherized",
