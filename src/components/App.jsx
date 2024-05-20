@@ -5,7 +5,6 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 export default function App() {
-
   [showSurvey, setShowSurvey] = React.useState(true);
   [surveyData, setSurveyData] = React.useState(null);
   [addressData, setAddressData] = React.useState(null);
@@ -18,7 +17,7 @@ export default function App() {
     setSurveyData(sender.data);
     setShowSurvey(false);
   }
-
+  
   const ScreenerMemo = React.memo(Screener);
   return (
   <>
@@ -28,4 +27,6 @@ export default function App() {
     <Footer/>
   </>
   );
+
+  return <Survey model={survey} />;
 }

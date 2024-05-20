@@ -1,45 +1,63 @@
 import React from "react";
-import { FunctionFactory } from "survey-core";
-import { checkARPA, checkCountyCorp, checkHabitatForHumanity, checkRebuildingTogether, checkMVCAP } from "../utils/calculations";
-import ResultEntry from "./ResultEntry";
-
+// import { checkARPA, checkCountyCorp, checkHabitatForHumanity, checkRebuildingTogether, checkMVCAP } from "../utils/calculations";
+// import ResultEntry from "./ResultEntry";
+import {
+  miamiValleyCommunityActionPartnershipWeatherization,
+  habitatForHumanityEmergencyHomeRepair,
+  countyCorpHomeRepair,
+  miamiValleyCommunityActionPartnershipEmergencyHomeRepair,
+  rebuildingTogetherDayton,
+  habitatForHumanityARPAProgram,
+  rebuildingTogetherDaytonARPAProgram,
+} from "../utils/program";
+import { createCompletedHtml } from "../utils/survey/createCompletedHtml";
+ 
 // const sendmailEndpoint =
 //   "https://faas-nyc1-2ef2e6cc.doserverless.co/api/v1/web/fn-72f50c41-0f6d-47f1-a509-bfc5cbc49013/dhrn/addresses";
 
 export default function Results({ surveyData, addressData, county }) {
   console.log("Results", surveyData, addressData, county);
 
-  function generateResults() {
-    // This is where we would generate the results based on the survey data.
-    // For now, we'll just return a placeholder.
-    const results = [];
-    results.push(checkARPA(surveyData));
-    results.push(checkCountyCorp(surveyData, county));
-    results.push(checkRebuildingTogether(surveyData, county));
-    results.push(checkHabitatForHumanity(surveyData, county));
-    results.push(checkMVCAP(surveyData, county));
-
-    return (
-      <>
-        <h2>Results</h2>
-        <ul>
-          {results.map((result) => (
-            <li key={result.name}>
-              <ResultEntry data={result} />
-            </li>
-          ))}
-        </ul>
-      </>
+  function handleCreateCompletionScreen(surveyData) {
+    console.log("Survey", surveyData);
+    const isEligibleForMiamiValleyCommunityActionPartnershipWeatherization =
+      miamiValleyCommunityActionPartnershipWeatherization(surveyData);
+  
+    const isEligibleForHabitatForHumanityEmergencyHomeRepair =
+      habitatForHumanityEmergencyHomeRepair(surveyData);
+  
+    const isEligibleForCountyCorpHomeRepair = countyCorpHomeRepair(
+      surveyData
     );
+  
+    const isEligibleForMiamiValleyCommunityActionPartnershipEmergencyHomeRepair =
+      miamiValleyCommunityActionPartnershipEmergencyHomeRepair(surveyData);
+  
+    const isEligibleForRebuildingTogetherDayton = rebuildingTogetherDayton(
+      surveyData
+    );
+  
+    const isEligibleForHabitatForHumanityARPAProgram =
+      habitatForHumanityARPAProgram(surveyData);
+  
+    const isEligibleForRebuildingTogetherDaytonARPAProgram =
+      rebuildingTogetherDaytonARPAProgram(surveyData);
+  
+    return createCompletedHtml({
+      isEligibleForCountyCorpHomeRepair,
+      isEligibleForHabitatForHumanityARPAProgram,
+      isEligibleForHabitatForHumanityEmergencyHomeRepair,
+      isEligibleForMiamiValleyCommunityActionPartnershipEmergencyHomeRepair,
+      isEligibleForMiamiValleyCommunityActionPartnershipWeatherization,
+      isEligibleForRebuildingTogetherDayton,
+      isEligibleForRebuildingTogetherDaytonARPAProgram,
+    });
   }
 
   return (
     <main className="p-6 mb-12">
       <div>Survey Complete</div>
-      <p>
-        This page will provide some info on if you are likely to be eligible.
-      </p>
-      {generateResults()}
+      {handleCreateCompletionScreen({...surveyData, ...addressData, county})}
     </main>
   );
 }

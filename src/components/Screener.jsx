@@ -20,10 +20,15 @@ export default function Screener({onComplete}) {
 
   const surveyConfig = new Model(survey);
   surveyConfig.onComplete.add((sender, options) => onComplete(sender, options, lastAddressData, lastCounty));
+  // survey.onComplete.add(handleCreateCompletionScreen(survey));
 
   function isSingleFamilyLUC(luc) {
     if (luc >= 500 && luc < 515) return true;
     return false;
+  }
+
+  function isARPANeighborhood(neighborhood) {
+    return ['Old North Dayton', 'Five Oaks', 'Wolf Creek', 'Carillon', 'Edgemont', 'Miami Chapel'].includes(neighborhood);
   }
 
   function populateFromAddress(addressData) {
@@ -40,6 +45,8 @@ export default function Screener({onComplete}) {
       surveyConfig.setValue("homeType", "Duplex or other Multi-Unit");
     }
 
+    surveyConfig.setValue("zipCode", addressData.zip);
+    surveyConfig.setValue("arpaNeighborhood", isARPANeighborhood(addressData.neighborhood));
     surveyConfig.setValue("taxesUpToDate", addressData.delqamount === "0");
   }
 
