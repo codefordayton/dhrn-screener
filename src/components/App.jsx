@@ -7,10 +7,10 @@ import Footer from "./Footer";
 const sendmailEndpoint = "https://faas-nyc1-2ef2e6cc.doserverless.co/api/v1/web/fn-72f50c41-0f6d-47f1-a509-bfc5cbc49013/dhrn/sendmail"
 
 export default function App() {
-  [showSurvey, setShowSurvey] = React.useState(true);
-  [surveyData, setSurveyData] = React.useState(null);
-  [addressData, setAddressData] = React.useState(null);
-  [county, setCounty] = React.useState(null);
+  const [showSurvey, setShowSurvey] = React.useState(true);
+  const [surveyData, setSurveyData] = React.useState(null);
+  const [addressData, setAddressData] = React.useState(null);
+  const [county, setCounty] = React.useState(null);
 
   const sendEmail = (surveyData, addressData, county)  => {
     console.log(JSON.stringify({...surveyData, ...addressData, county}));
