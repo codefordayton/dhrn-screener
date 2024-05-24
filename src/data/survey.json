@@ -60,7 +60,7 @@
           "title": "Do you own any other properties?",
           "description": "These programs are meant to support your primary residence.",
           "type": "boolean",
-          "isRequired": true
+          "isRequired": false
         },{
           "name": "moreThanAYear",
           "title": "Have you lived in the home for more than a year?",

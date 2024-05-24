@@ -20,7 +20,6 @@ export default function Screener({onComplete}) {
 
   const surveyConfig = new Model(survey);
   surveyConfig.onComplete.add((sender, options) => onComplete(sender, options, lastAddressData, lastCounty));
-  // survey.onComplete.add(handleCreateCompletionScreen(survey));
 
   function isSingleFamilyLUC(luc) {
     if (luc >= 500 && luc < 515) return true;
