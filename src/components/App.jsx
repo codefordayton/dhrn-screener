@@ -33,13 +33,11 @@ export default function App() {
   
   const ScreenerMemo = React.memo(Screener);
   return (
-  <>
+  <div className="flex-grow pb-16">
     <Header/>
-    { showSurvey && <ScreenerMemo onComplete={completeSurvey} />}
+    { showSurvey && <ScreenerMemo className="flex-1" onComplete={completeSurvey} />}
     { !showSurvey && <Results surveyData={surveyData} addressData={addressData} county={county} />}
     <Footer/>
-  </>
+  </div>
   );
-
-  return <Survey model={survey} />;
 }

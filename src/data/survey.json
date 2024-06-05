@@ -144,7 +144,7 @@
           "name": "preferredContact",
           "title": "What is your preferred form of contact?",
           "type": "radiogroup",
-          "choices": ["email", "call", "text"],
+          "choices": ["Email", "Call", "Text"],
           "isRequired": true
         },
         {
@@ -152,7 +152,7 @@
           "title": "Email address",
           "type": "text",
           "validators": [{ "type": "email" }],
-          "isRequired": true
+          "requiredIf": "{preferredContact} = 'Email'"
         },
         {
           "name": "phone",
@@ -165,7 +165,7 @@
               "text": "Please enter a valid phone number."
             }
           ],
-          "isRequired": true
+          "requiredIf": "{preferredContact} != 'Email'"
         }
       ]
     }
