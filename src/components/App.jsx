@@ -29,15 +29,28 @@ export default function App() {
     setSurveyData(sender.data);
     setShowSurvey(false);
     sendEmail(sender.data, addressData, county);
-  }
-  
+  };
+  const goBack = () => {
+    setShowSurvey(true);
+    return true;
+  };
+
   const ScreenerMemo = React.memo(Screener);
   return (
-  <div className="flex-grow pb-16">
-    <Header/>
-    { showSurvey && <ScreenerMemo className="flex-1" onComplete={completeSurvey} />}
-    { !showSurvey && <Results surveyData={surveyData} addressData={addressData} county={county} />}
-    <Footer/>
-  </div>
+    <div className="flex-grow pb-16">
+      <Header />
+      {showSurvey && (
+        <ScreenerMemo className="flex-1" onComplete={completeSurvey} />
+      )}
+      {!showSurvey && (
+        <Results
+          surveyData={surveyData}
+          addressData={addressData}
+          county={county}
+          goBack={goBack}
+        />
+      )}
+      <Footer />
+    </div>
   );
 }

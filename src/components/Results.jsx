@@ -49,6 +49,7 @@ export default function Results({ surveyData, addressData, county }) {
       isEligibleForMiamiValleyCommunityActionPartnershipWeatherization,
       isEligibleForRebuildingTogetherDayton,
       isEligibleForRebuildingTogetherDaytonARPAProgram,
+      goBack,
     });
   }
 
