@@ -13,6 +13,11 @@ You can get started by running:
 * `npm install` to install dependencies.
 * `npm run dev` to run a local version.
 
+To run dockerized version:
+
+* `npm run build` to build the application
+* `docker-compose up` to run using docker-compose
+
 Pushes to the `main` branch are auto-deployed.
 
 Ask me (Dave Best) if you'd like commit-bit on the repo. Otherwise, feel free to fork the repository and submit merge requests.

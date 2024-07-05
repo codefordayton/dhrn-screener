@@ -1,0 +1,7 @@
+services:
+  frontend:
+    build:
+      context: .
+    container_name: dhrn
+    ports:
+      - "1234:1234"
