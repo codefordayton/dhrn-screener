@@ -37,18 +37,6 @@ export default function Results({ surveyData, addressData, county, goBack }) {
     const isEligibleForRebuildingTogetherDaytonARPAProgram =
       rebuildingTogetherDaytonARPAProgram(surveyData);
   
-    // just for convenience to test the various result screens
-    const test = false;
-    if (test) { 
-      isEligibleForCountyCorpHomeRepair = "eligible";
-      isEligibleForHabitatForHumanityARPAProgram = "notEligibleFinancial";
-      isEligibleForHabitatForHumanityEmergencyHomeRepair = "notEligible";
-      isEligibleForMiamiValleyCommunityActionPartnershipEmergencyHomeRepair = "notEligible";
-      isEligibleForMiamiValleyCommunityActionPartnershipWeatherization = "notEligible";
-      isEligibleForRebuildingTogetherDayton = "notEligible";
-      isEligibleForRebuildingTogetherDaytonARPAProgram = "notEligible";
-    }
-    
     return createCompletedHtml({
       isEligibleForCountyCorpHomeRepair,
       isEligibleForHabitatForHumanityARPAProgram,
