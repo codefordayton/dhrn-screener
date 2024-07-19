@@ -32,12 +32,28 @@ import {
 // --------------------------------------------------------------------
 
 /**
+ * Custom type with the following values: eligible, not eligible, not eligible for financial reasons.
+ *
+ * @typedef {'eligible' | 'notEligible' | 'notEligibleFinancial'} ProgramEligibility
+ */
+
+const returnEligibility = (incomeEligibilty, nonIncomeEligibility) => {
+  if (incomeEligibilty && nonIncomeEligibility) {
+    return "eligible";
+  } else if (!incomeEligibilty && nonIncomeEligibility) {
+    return "notEligibleFinancial";
+  } else {
+    return "notEligible";
+  }
+}
+
+/**
  * Check if the given user (row)
  * is eligible for:
  * "Miami Valley Community Action Partnership Weatherization"
  *
  * @param {UserInfo} userInfo - User information object.
- * @returns {boolean} - Returns true if the individual is eligible for home repair assistance.
+ * @returns {ProgramEligibilty} - Returns true if the individual is eligible for home repair assistance.
  */
 export const miamiValleyCommunityActionPartnershipWeatherization = (
   userInfo
@@ -49,8 +65,9 @@ export const miamiValleyCommunityActionPartnershipWeatherization = (
 
   const meetsIncomeReq = userInfo.income * 12 < percentFPLForHouseholdSize;
   const inCounty = ["Montgomery", "Mercer", "Auglaize", "Darke", "Miami", "Preble", "Greene", "Butler", "Warren"].includes(userInfo.county);
+  const meetsOtherReq = !userInfo.weatherized && inCounty
 
-  return meetsIncomeReq && !userInfo.weatherized && inCounty;
+  return returnEligibility(meetsIncomeReq, meetsOtherReq);
 };
 
 /**
@@ -59,7 +76,7 @@ export const miamiValleyCommunityActionPartnershipWeatherization = (
  * "Habitat for Humanity Emergency Home Repair"
  *
  * @param {UserInfo} userInfo - User information object.
- * @returns {boolean} - Returns true if the individual is eligible for home repair assistance.
+ * @returns {ProgramEligibilty} - Returns true if the individual is eligible for home repair assistance.
  */
 export const habitatForHumanityEmergencyHomeRepair = (userInfo) => {
   const percentAMIForHouseholdSize = getPercentAMIForHouseholdSize({
@@ -69,10 +86,9 @@ export const habitatForHumanityEmergencyHomeRepair = (userInfo) => {
 
   const meetsIncomeReq = userInfo.income * 12 < percentAMIForHouseholdSize;
   const inCounty = ["Montgomery", "Greene", "Clark"].includes(userInfo.county);
+  const meetsOtherReq = inCounty && userInfo.insurance && !userInfo.receivedHelpInLast2Years;
 
-  return (
-    meetsIncomeReq && inCounty && userInfo.insurance && !userInfo.receivedHelpInLast2Years
-  );
+  return returnEligibility(meetsIncomeReq, meetsOtherReq);
 };
 
 /**
@@ -81,7 +97,7 @@ export const habitatForHumanityEmergencyHomeRepair = (userInfo) => {
  * "County Corp Home Repair"
  *
  * @param {UserInfo} userInfo - User information object.
- * @returns {boolean} - Returns true if the individual is eligible for home repair assistance.
+ * @returns {ProgramEligibilty} - Returns true if the individual is eligible for home repair assistance.
  */
 export const countyCorpHomeRepair = (userInfo) => {
   const percentAMIForHouseholdSize = getPercentAMIForHouseholdSize({
@@ -91,14 +107,9 @@ export const countyCorpHomeRepair = (userInfo) => {
 
   const meetsIncomeReq =
     userInfo.monthlyIncome * 12 < percentAMIForHouseholdSize;
-
   const inCounty = userInfo.county === "Montgomery";
-  return (
-    meetsIncomeReq &&
-    userInfo.hasInsurance &&
-    inCounty &&
-    !userInfo.receivedHelpInLast2Years
-  );
+  const meetsOtherReq = inCounty && userInfo.hasInsurance && !userInfo.receivedHelpInLast2Years;
+  return returnEligibility(meetsIncomeReq, meetsOtherReq);
 };
 
 /**
@@ -107,7 +118,7 @@ export const countyCorpHomeRepair = (userInfo) => {
  * "Miami Valley Community Action Partnership Emergency Home Repair"
  *
  * @param {UserInfo} userInfo - User information object.
- * @returns {boolean} - Returns true if the individual is eligible for home repair assistance.
+ * @returns {ProgramEligibilty} - Returns true if the individual is eligible for home repair assistance.
  */
 export const miamiValleyCommunityActionPartnershipEmergencyHomeRepair = (
   userInfo
@@ -121,8 +132,8 @@ export const miamiValleyCommunityActionPartnershipEmergencyHomeRepair = (
     userInfo.monthlyIncome * 12 < percentAMIForHouseholdSize;
 
   const inCounty = ["Montgomery", "Mercer", "Auglaize", "Darke", "Miami", "Preble", "Greene", "Butler", "Warren"].includes(userInfo.county);
-
-  return meetsIncomeReq && !userInfo.receivedHelpInLast2Years && inCounty;
+  const meetsOtherReq = inCounty && !userInfo.receivedHelpInLast2Years;
+  return returnEligibility(meetsIncomeReq, meetsOtherReq);
 };
 
 /**
@@ -131,7 +142,7 @@ export const miamiValleyCommunityActionPartnershipEmergencyHomeRepair = (
  * "Rebuilding Together Dayton"
  *
  * @param {UserInfo} userInfo - User information object.
- * @returns {boolean} - Returns true if the individual is eligible for home repair assistance.
+ * @returns {ProgramEligibilty} - Returns true if the individual is eligible for home repair assistance.
  */
 export const rebuildingTogetherDayton = (userInfo) => {
   const percentAMIForHouseholdSize = getPercentFPLForHouseholdSize({
@@ -140,12 +151,9 @@ export const rebuildingTogetherDayton = (userInfo) => {
   });
 
   const meetsIncomeReq = userInfo.income * 12 < percentAMIForHouseholdSize;
-
   const inCounty = userInfo.county === "Montgomery";
-
-  return (
-    meetsIncomeReq && inCounty && userInfo.age >= 60 && !userInfo.receivedHelpInLast2Years
-  );
+  const meetsOtherReq = inCounty && userInfo.age >= 60 && !userInfo.receivedHelpInLast2Years;
+  return returnEligibility(meetsIncomeReq, meetsOtherReq);
 };
 
 /**
@@ -154,18 +162,13 @@ export const rebuildingTogetherDayton = (userInfo) => {
  * "Habitat for Humanity ARPA program"
  *
  * @param {UserInfo} userInfo - User information object.
- * @returns {boolean} - Returns true if the individual is eligible for home repair assistance.
+ * @returns {ProgramEligibilty} - Returns true if the individual is eligible for home repair assistance.
  */
 export const habitatForHumanityARPAProgram = (userInfo) => {
   const inARPANeighborhood = userInfo.arpaNeighborhood;
 
-  return (
-    inARPANeighborhood &&
-    userInfo.ownHome &&
-    userInfo.nameOnLease &&
-    userInfo.taxesUpToDate &&
-    userInfo.hasLivedInHomeOver1Year
-  );
+  const meetsOtherReq = inARPANeighborhood && userInfo.ownHome && userInfo.nameOnLease && userInfo.taxesUpToDate && userInfo.hasLivedInHomeOver1Year;
+  return returnEligibility(true, meetsOtherReq);
 };
 
 /**
@@ -174,14 +177,14 @@ export const habitatForHumanityARPAProgram = (userInfo) => {
  * "Rebuilding Together Dayton ARPA program"
  *
  * @param {UserInfo} userInfo - User information object.
- * @returns {boolean} - Returns true if the individual is eligible for home repair assistance.
+ * @returns {ProgramEligibilty} - Returns true if the individual is eligible for home repair assistance.
  */
 export const rebuildingTogetherDaytonARPAProgram = (userInfo) => {
   const inARPANeighborhood = userInfo.arpaNeighborhood;
 
   const inCounty = userInfo.county === "Montgomery";
 
-  return (
+  return returnEligibility(true,
     inARPANeighborhood &&
     userInfo.ownHome &&
     userInfo.homeType !== "other" &&
