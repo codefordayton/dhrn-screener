@@ -13,11 +13,10 @@ import {
 import { createCompletedHtml } from "../utils/survey/createCompletedHtml";
  
 const sendmailEndpoint = "https://faas-nyc1-2ef2e6cc.doserverless.co/api/v1/web/fn-72f50c41-0f6d-47f1-a509-bfc5cbc49013/dhrn/sendmail"
-export default function Results({ surveyData, addressData, county }) {
+export default function Results({ surveyData, addressData, county, goBack }) {
   console.log("Results", surveyData, addressData, county);
 
   function handleCreateCompletionScreen(surveyData) {
-    console.log("Survey", surveyData);
     const isEligibleForMiamiValleyCommunityActionPartnershipWeatherization =
       miamiValleyCommunityActionPartnershipWeatherization(surveyData);
   
@@ -41,6 +40,18 @@ export default function Results({ surveyData, addressData, county }) {
     const isEligibleForRebuildingTogetherDaytonARPAProgram =
       rebuildingTogetherDaytonARPAProgram(surveyData);
   
+    // just for convenience to test the various result screens
+    const test = false;
+    if (test) { 
+      isEligibleForCountyCorpHomeRepair = "eligible";
+      isEligibleForHabitatForHumanityARPAProgram = "notEligibleFinancial";
+      isEligibleForHabitatForHumanityEmergencyHomeRepair = "notEligible";
+      isEligibleForMiamiValleyCommunityActionPartnershipEmergencyHomeRepair = "notEligible";
+      isEligibleForMiamiValleyCommunityActionPartnershipWeatherization = "notEligible";
+      isEligibleForRebuildingTogetherDayton = "notEligible";
+      isEligibleForRebuildingTogetherDaytonARPAProgram = "notEligible";
+    }
+    
     return createCompletedHtml({
       isEligibleForCountyCorpHomeRepair,
       isEligibleForHabitatForHumanityARPAProgram,
@@ -55,8 +66,7 @@ export default function Results({ surveyData, addressData, county }) {
 
   return (
     <main className="p-6 mb-12">
-      <div>Survey Complete</div>
-      {handleCreateCompletionScreen({...surveyData, ...addressData, county})}
+      {handleCreateCompletionScreen({...surveyData, ...addressData, county, goBack})}
     </main>
   );
 }
