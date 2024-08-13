@@ -64,6 +64,7 @@ export const miamiValleyCommunityActionPartnershipWeatherization = (
   });
 
   const meetsIncomeReq = userInfo.income * 12 < percentFPLForHouseholdSize;
+
   const inCounty = ["Montgomery", "Mercer", "Auglaize", "Darke", "Miami", "Preble", "Greene", "Butler", "Warren"].includes(userInfo.county);
   const meetsOtherReq = !userInfo.weatherized && inCounty
 
@@ -106,7 +107,7 @@ export const countyCorpHomeRepair = (userInfo) => {
   });
 
   const meetsIncomeReq =
-    userInfo.monthlyIncome * 12 < percentAMIForHouseholdSize;
+    userInfo.income * 12 < percentAMIForHouseholdSize;
   const inCounty = userInfo.county === "Montgomery";
   const meetsOtherReq = inCounty && userInfo.hasInsurance && !userInfo.receivedHelpInLast2Years;
   return returnEligibility(meetsIncomeReq, meetsOtherReq);
@@ -129,7 +130,7 @@ export const miamiValleyCommunityActionPartnershipEmergencyHomeRepair = (
   });
 
   const meetsIncomeReq =
-    userInfo.monthlyIncome * 12 < percentAMIForHouseholdSize;
+    userInfo.income * 12 < percentAMIForHouseholdSize;
 
   const inCounty = ["Montgomery", "Mercer", "Auglaize", "Darke", "Miami", "Preble", "Greene", "Butler", "Warren"].includes(userInfo.county);
   const meetsOtherReq = inCounty && !userInfo.receivedHelpInLast2Years;
