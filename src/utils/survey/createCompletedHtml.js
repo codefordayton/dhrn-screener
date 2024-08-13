@@ -12,58 +12,11 @@ const createListItemForProgram = ({ programName, programLink, isEligible }) => {
   return <li className="text-xl/8">{programName}</li>
 };
 
-const createEligibleHtml = (isEligibleForCountyCorpHomeRepair,
-  isEligibleForHabitatForHumanityARPAProgram,
-  isEligibleForHabitatForHumanityEmergencyHomeRepair,
-  isEligibleForMiamiValleyCommunityActionPartnershipEmergencyHomeRepair,
-  isEligibleForMiamiValleyCommunityActionPartnershipWeatherization,
-  isEligibleForRebuildingTogetherDayton,
-  isEligibleForRebuildingTogetherDaytonARPAProgram) => {
+const createEligibleHtml = () => {
     return (
       <>
-          <p className="mb-4">You may be eligible for the following programs:</p>
-          <ul>
-            {createListItemForProgram({
-              isEligible:
-                isEligibleForMiamiValleyCommunityActionPartnershipWeatherization,
-              programName: 
-                "Miami Valley Community Action Partnership Weatherization",
-              programLink: "https://miamivalleycap.org/weatherization/",
-            })}
-            {createListItemForProgram({
-              isEligible: isEligibleForHabitatForHumanityEmergencyHomeRepair,
-              programName: "Habitat for Humanity Emergency Home Repair",
-              programLink: "https://daytonhabitat.org/what-we-do/critical-repairs.html/",
-            })}
-            {createListItemForProgram({
-              isEligible: isEligibleForCountyCorpHomeRepair,
-              programName: "County Corp Home Repair",
-              programLink: "https://countycorp.com/programs/consumer-housing-programs/home-repair/",
-            })}
-            {createListItemForProgram({
-              isEligible:
-                isEligibleForMiamiValleyCommunityActionPartnershipEmergencyHomeRepair,
-              programName:
-                "Miami Valley Community Action Partnership Emergency Home Repair",
-              programLink: "https://miamivalleycap.org/home-repair/",
-            })}
-            {createListItemForProgram({
-              isEligible: isEligibleForRebuildingTogetherDayton,
-              programName: "Rebuilding Together Dayton",
-              programLink: "https://www.rtdayton.org/",
-            })}
-            {createListItemForProgram({
-              isEligible: isEligibleForHabitatForHumanityARPAProgram,
-              programName: "Habitat for Humanity American Rescue Plan Act (ARPA) Program",
-              programLink: null,
-            })}
-            {createListItemForProgram({
-              isEligible: isEligibleForRebuildingTogetherDaytonARPAProgram,
-              programName: "Rebuilding Together Dayton American Rescue Plan Act (ARPA) Program",
-              programLink: null,
-            })}
-          </ul>
-          <p className="mt-8">Your information has been provided to the Dayton Home Repair Network administrators. They will be in touch soon.</p>
+          <p className="mt-8">Based on this screening, you should be eligible for one or more Dayton Home Repair Network programs.</p>
+          <p className="mt-2">A DEC staff member will receive your information and reach out to you.</p>
       </>
     )
   };
