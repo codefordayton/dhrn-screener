@@ -35,12 +35,6 @@
           "expression": "validateZip({zipCode})"
         }]
       },{
-        "name": "arpaNeighborhood",
-        "title": "Are you in one of the following neighborhoods?",
-        "description":"Old North Dayton, 5 Oaks, Wolf Creek, Carillon, Edgemont, Miami Chapel",
-        "type": "boolean",
-        "isRequired": true
-        },{
           "name": "ownHome",
           "title": "Do you own your own home?",
           "description": "Most of the programs are meant for home owners. Even if that isn't you, please fill out the form as we might be able to direct you to other resources.",
@@ -110,7 +104,7 @@
       "elements": [
         {
           "name": "income",
-          "title": "What is your average household monthly income? (Please include all permanent residents over the age of 18)",
+          "title": "What is your average household monthly income? (Please include income from all permanent residents of the household over age 18)",
           "type": "text",
           "validators": [{ "type": "numeric" }],
           "isRequired": true,

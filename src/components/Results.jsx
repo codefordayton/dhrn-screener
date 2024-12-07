@@ -16,6 +16,7 @@ const sendmailEndpoint = "https://faas-nyc1-2ef2e6cc.doserverless.co/api/v1/web/
 export default function Results({ surveyData, addressData, county, goBack }) {
   console.log("Results", surveyData, addressData, county);
 
+  surveyData.income = parseInt(surveyData.income);
   function handleCreateCompletionScreen(surveyData) {
     const isEligibleForMiamiValleyCommunityActionPartnershipWeatherization =
       miamiValleyCommunityActionPartnershipWeatherization(surveyData);
@@ -51,7 +52,6 @@ export default function Results({ surveyData, addressData, county, goBack }) {
 
   return (
     <main className="p-6 mb-12">
-      <div>Survey Complete</div>
       {handleCreateCompletionScreen({
         ...surveyData,
         ...addressData,

@@ -50,7 +50,6 @@ export default function Screener({onComplete}) {
   }
 
   function validateAddress([address]) {
-    console.log("VALIDATE", address);
     if (address === lastAddress) {
       this.returnResult(true);
       return;
@@ -85,7 +84,6 @@ export default function Screener({onComplete}) {
   }
 
   function validateZip([zipCode]) {
-    console.log("VALIDATE", zipCode);
     if (zipCode === lastZip) {
       this.returnResult(true);
       return;

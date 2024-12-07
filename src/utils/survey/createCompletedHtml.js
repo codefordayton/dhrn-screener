@@ -1,17 +1,3 @@
-const createListItemForProgram = ({ programName, programLink, isEligible }) => {
-  if (isEligible === "notEligible" || isEligible === "notEligibleFinancial") return null;
-  if (programLink) {
-    return (
-      <li>
-        <a className="text-xl/8 underline" href={programLink} target="_blank" rel="noreferrer">
-          {programName}
-        </a>
-      </li>
-    );
-  }
-  return <li className="text-xl/8">{programName}</li>
-};
-
 const createEligibleHtml = () => {
     return (
       <>
@@ -24,7 +10,7 @@ const createEligibleHtml = () => {
 const createNotEligibleHtml = () => {
   return (
     <>
-      <p className="mb-4">Unfortunately, you are likely not eligible for any programs included in the DHRN. There are other programs that are available.</p>
+      <p className="mb-4">Unfortunately, you are likely not eligible for any programs included in the DHRN. There are other programs that are available. A staff member from Dayton Energy Collaborative will be reaching out to you soon.</p>
       <p>Here are some other resources that may be helpful:</p>
       <p><a className="underline" href="https://loganco.nyc3.digitaloceanspaces.com/Resources%20for%20Clients.pdf">Client Resources</a></p>
     </>
@@ -34,7 +20,7 @@ const createNotEligibleHtml = () => {
 const createNotEligibleDueToFinancesHtml = () => {
   return (
     <>
-      <p className="mb-4">Unfortunately, your reported income is too high to be eligible for any of the programs included in the DHRN. There are other programs that are available.</p>
+      <p className="mb-4">Unfortunately, your reported income is too high to be eligible for any of the programs included in the DHRN. There are other programs that are available.A staff member from Dayton Energy Collaborative will be reaching out to you soon.</p>
       <p>Here are some other resources that may be helpful:</p>
       <p><a className="underline" href="https://loganco.nyc3.digitaloceanspaces.com/Resources%20for%20Clients.docx">Inflation Reduction Act Documentation</a></p>
       <p><a className="underline" href="https://loganco.nyc3.digitaloceanspaces.com/Resources%20for%20Clients.pdf">Client Resources</a></p>
